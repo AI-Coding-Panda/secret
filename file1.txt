@@ -29,7 +29,7 @@ FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
 FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
 );
 INSERT INTO Student VALUES
-(1, 'Pankaj', 'suraj@gmail.com', 21, 'Pune'),
+(1, 'suraj', 'suraj@gmail.com', 21, 'Pune'),
 (2, 'Rutuja', 'rutuja@gmail.com', 20, 'Nagpur'),
 (3, 'Vaibhav', 'vaibhav@gmail.com', 22, 'Aurangabad');
 INSERT INTO Instructor VALUES
