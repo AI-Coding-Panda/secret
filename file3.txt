@@ -29,7 +29,7 @@ FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
 FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
 );
 INSERT INTO Students VALUES
-(1, 'Pankaj', 'Jorwar', 21, 'AI'),
+(1, 'suraj', 'bhushnar', 21, 'AI'),
 (2, 'Rutuja', 'Deshmukh', 20, 'IT'),
 (3, 'Vaibhav', 'Kadam', 23, 'CS'),
 (4, 'Priyanka', 'Shinde', 22, 'AI'),
