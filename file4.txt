@@ -1,0 +1,48 @@
+CREATE DATABASE CustomerDB;
+USE CustomerDB;
+CREATE TABLE Customers (
+CustomerID INT PRIMARY KEY,
+FirstName VARCHAR(50),
+LastName VARCHAR(50),
+Email VARCHAR(100)
+);
+CREATE TABLE Orders (
+OrderID INT PRIMARY KEY,
+OrderDate DATE,
+TotalAmount DECIMAL(10,2),
+CustomerID INT,
+FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+INSERT INTO Customers VALUES
+(1, 'Pankaj', 'Jorwar', 'pankaj@gmail.com'),
+(2, 'Rutuja', 'Deshmukh', 'rutuja@gmail.com'),
+(3, 'Vaibhav', 'Kadam', 'vaibhav@gmail.com'),
+(4, 'Priyanka', 'Shinde', 'priyanka@gmail.com'),
+(5, 'Rohit', 'Gaikwad', 'rohit@gmail.com');
+INSERT INTO Orders VALUES
+(101, '2025-01-12', 600.00, 1),
+(102, '2025-01-25', 850.00, 2),
+(103, '2025-02-10', 350.00, 3),
+(104, '2025-02-20', 950.00, 1),
+(105, '2025-03-05', 480.00, 5);
+SELECT * FROM Customers;
+SELECT * FROM Orders;
+SELECT c.CustomerID, c.FirstName, c.LastName,
+o.OrderID, o.OrderDate, o.TotalAmount
+FROM Customers c
+INNER JOIN Orders o ON c.CustomerID = o.CustomerID;
+SELECT c.CustomerID, c.FirstName, c.LastName,
+o.OrderID, o.OrderDate, o.TotalAmount
+FROM Customers c
+LEFT JOIN Orders o ON c.CustomerID = o.CustomerID;
+SELECT c.CustomerID, c.FirstName, c.LastName,
+o.OrderID, o.OrderDate, o.TotalAmount
+FROM Customers c
+RIGHT JOIN Orders o ON c.CustomerID = o.CustomerID;
+SELECT c.CustomerID, c.FirstName, c.LastName,
+o.OrderID, o.OrderDate, o.TotalAmount
+FROM Customers c LEFT JOIN Orders o ON c.CustomerID = o.CustomerID
+UNION
+SELECT c.CustomerID, c.FirstName, c.LastName,
+o.OrderID, o.OrderDate, o.TotalAmount
+FROM Customers c RIGHT JOIN Orders o ON c.CustomerID = o.CustomerID;

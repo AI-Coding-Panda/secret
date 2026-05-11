@@ -1,0 +1,78 @@
+CREATE DATABASE StudentDB;
+USE StudentDB;
+CREATE TABLE Students (
+StudentID INT PRIMARY KEY,
+FirstName VARCHAR(50),
+LastName VARCHAR(50),
+Age INT,
+Major VARCHAR(50)
+);
+CREATE TABLE Instructors (
+InstructorID INT PRIMARY KEY,
+FirstName VARCHAR(50),
+LastName VARCHAR(50),
+Department VARCHAR(50)
+);
+CREATE TABLE Courses (
+CourseID INT PRIMARY KEY,
+CourseName VARCHAR(50),
+Credits INT,
+InstructorID INT,
+FOREIGN KEY (InstructorID) REFERENCES Instructors(InstructorID)
+);
+CREATE TABLE Enrollments (
+EnrollmentID INT PRIMARY KEY,
+StudentID INT,
+CourseID INT,
+Grade VARCHAR(2),
+FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+INSERT INTO Students VALUES
+(1, 'Pankaj', 'Jorwar', 21, 'AI'),
+(2, 'Rutuja', 'Deshmukh', 20, 'IT'),
+(3, 'Vaibhav', 'Kadam', 23, 'CS'),
+(4, 'Priyanka', 'Shinde', 22, 'AI'),
+(5, 'Rohit', 'Gaikwad', 21, 'IT');
+INSERT INTO Instructors VALUES
+(1, 'Prof. Sunita', 'Jadhav', 'Electrical'),
+(2, 'Dr. Madhuri', 'Pawar', 'IT'),
+(3, 'Prof. Ashwini', 'Kulkarni', 'AI'),
+(4, 'Dr. Aishwarya', 'More', 'CS'),
+(5, 'Prof. Sujata', 'Deshpande', 'ENTC');
+INSERT INTO Courses VALUES
+(101, 'DBMS', 4, 1),
+(102, 'OS', 3, 2),
+(103, 'AI', 4, 3),
+(104, 'CN', 3, 4),
+(105, 'DSA', 4, 5);
+INSERT INTO Enrollments VALUES
+(1, 1, 101, 'A'),
+(2, 2, 102, 'B'),
+(3, 3, 103, 'A'),
+(4, 4, 104, 'B'),
+(5, 5, 105, 'A');
+SELECT * FROM Students;
+SELECT * FROM Instructors;
+SELECT * FROM Courses;
+SELECT * FROM Enrollments;
+SELECT StudentID, FirstName, LastName, Age FROM Students WHERE Age > 21;
+
+SELECT CourseName, Credits FROM Courses WHERE InstructorID = 3;
+SELECT s.StudentID, s.FirstName, s.LastName
+FROM Students s
+JOIN Enrollments e ON s.StudentID = e.StudentID
+WHERE e.CourseID = 101;
+SELECT FirstName, LastName, Age FROM Students ORDER BY LastName ASC;
+SELECT CourseName, Credits FROM Courses ORDER BY Credits DESC;
+SELECT FirstName, LastName, Age FROM Students ORDER BY Age ASC;
+SELECT c.CourseName, COUNT(e.StudentID) AS StudentCount
+FROM Courses c
+LEFT JOIN Enrollments e ON c.CourseID = e.CourseID
+GROUP BY c.CourseName;
+SELECT AVG(Age) AS AverageAge FROM Students;
+SELECT Major, AVG(Age) AS AvgAge FROM Students GROUP BY Major;
+SELECT i.FirstName, i.LastName, SUM(c.Credits) AS TotalCredits
+FROM Instructors i
+JOIN Courses c ON i.InstructorID = c.InstructorID
+GROUP BY i.FirstName, i.LastName;

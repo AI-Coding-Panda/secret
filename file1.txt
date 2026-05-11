@@ -1,0 +1,47 @@
+CREATE DATABASE UniversityDB;
+USE UniversityDB;
+CREATE TABLE Student (
+StudentID INT PRIMARY KEY,
+Name VARCHAR(100) NOT NULL,
+Email VARCHAR(100) UNIQUE NOT NULL,
+Age INT,
+Address VARCHAR(255)
+);
+CREATE TABLE Instructor (
+InstructorID INT PRIMARY KEY,
+Name VARCHAR(100) NOT NULL,
+Email VARCHAR(100) UNIQUE NOT NULL,
+Department VARCHAR(100)
+);
+CREATE TABLE Course (
+CourseID INT PRIMARY KEY,
+CourseName VARCHAR(100) NOT NULL,
+Credits INT NOT NULL,
+InstructorID INT,
+FOREIGN KEY (InstructorID) REFERENCES Instructor(InstructorID)
+);
+CREATE TABLE Enrollment (
+EnrollmentID INT PRIMARY KEY,
+StudentID INT,
+CourseID INT,
+EnrollmentDate DATE,
+FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
+FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+);
+INSERT INTO Student VALUES
+(1, 'Pankaj', 'pankaj@gmail.com', 21, 'Pune'),
+(2, 'Rutuja', 'rutuja@gmail.com', 20, 'Nagpur'),
+(3, 'Vaibhav', 'vaibhav@gmail.com', 22, 'Aurangabad');
+INSERT INTO Instructor VALUES
+(101, 'Dr. Kulkarni', 'kulkarni@gmail.com', 'Computer'),
+(102, 'Dr. Bhosale', 'bhosale@gmail.com', 'IT'),
+(103, 'Dr. Shinde', 'shinde@gmail.com', 'AI');
+INSERT INTO Course VALUES
+(201, 'DBMS', 4, 101),
+(202, 'OS', 3, 102),
+(203, 'AI', 4, 103);
+INSERT INTO Enrollment VALUES
+(1, 1, 201, '2025-01-08'),
+(2, 2, 202, '2025-01-14'),
+(3, 3, 203, '2025-01-18');
+SHOW DATABASES;

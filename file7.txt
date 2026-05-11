@@ -1,0 +1,62 @@
+/* MongoDB CRUD + Aggregation + Indexing */
+// CREATE DATABASE
+use SalesDB
+// CREATE COLLECTION
+db.createCollection("users")
+// INSERT DATA
+db.users.insertMany([
+{
+name: "Pankaj Jorwar", age: 21,
+email: "pankaj@example.com", department: "IT",
+salary: 52000, totalSales: 14000,
+joinDate: new Date("2024-01-08")
+},
+{
+name: "Rutuja Deshmukh", age: 24,
+email: "rutuja@example.com", department: "Sales",
+salary: 41000, totalSales: 17000,
+joinDate: new Date("2024-02-14")
+},
+{
+name: "Vaibhav Kadam", age: 29,
+email: "vaibhav@example.com", department: "IT",
+salary: 62000, totalSales: 22000,
+joinDate: new Date("2024-03-20")
+},
+{
+name: "Priyanka Shinde", age: 34,
+email: "priyanka@example.com", department: "HR",
+salary: 46000, totalSales: 9000,
+joinDate: new Date("2024-01-03")
+},
+{
+name: "Rohit Gaikwad", age: 27,
+email: "rohit@example.com", department: "Sales",
+salary: 43000, totalSales: 11000,
+joinDate: new Date("2024-04-10")
+}
+])
+// READ
+db.users.find()
+db.users.find({ department: "IT" })
+db.users.find({ age: { $gt: 27 } })
+// UPDATE
+db.users.updateOne({ name: "Rutuja Deshmukh" }, { $set: { salary: 43000 }
+})
+db.users.updateMany({ department: "IT" }, { $mul: { salary: 1.10 } })
+// DELETE
+db.users.deleteOne({ name: "Priyanka Shinde" })
+db.users.deleteMany({ department: "HR" })
+// AGGREGATION
+db.users.aggregate([{ $group: { _id: null, totalSales: { $sum:
+"$totalSales" } } }])
+db.users.aggregate([{ $group: { _id: null, averageAge: { $avg: "$age" } }
+}])
+db.users.aggregate([{ $group: { _id: "$department", departmentSales: {
+$sum: "$totalSales" } } }])
+// INDEXES
+db.users.createIndex({ email: 1 })
+db.users.createIndex({ department: 1 })
+db.users.createIndex({ department: 1, salary: -1 })
+db.users.getIndexes()
+db.users.find({ department: "IT" }).explain("executionStats")

@@ -1,0 +1,39 @@
+USE universitydb;
+CREATE VIEW StudentCourseView AS
+SELECT
+s.StudentID,
+s.Name AS StudentName,
+s.Email AS StudentEmail,
+c.CourseName,
+c.Credits,
+e.EnrollmentDate
+FROM Student s
+JOIN Enrollment e ON s.StudentID = e.StudentID
+JOIN Course c ON e.CourseID = c.CourseID;
+CREATE VIEW InstructorCourseView AS
+SELECT
+i.InstructorID,
+i.Name AS InstructorName,
+i.Department,
+c.CourseName,
+c.Credits
+FROM Instructor i
+JOIN Course c ON i.InstructorID = c.InstructorID;
+CREATE VIEW StudentBasicView AS
+SELECT StudentID, Name, Email, Age
+FROM Student;
+SELECT * FROM StudentCourseView;
+SELECT * FROM InstructorCourseView;
+SELECT * FROM StudentBasicView;
+UPDATE StudentBasicView
+SET Age = 22
+WHERE StudentID = 1;
+SELECT * FROM Student;
+DELETE FROM Enrollment WHERE StudentID = 3;
+DELETE FROM StudentBasicView WHERE StudentID = 3;
+SELECT * FROM Student;
+CREATE INDEX idx_student_email ON Student(Email);
+CREATE INDEX idx_enrollment_student ON Enrollment(StudentID);
+CREATE INDEX idx_enrollment_course ON Enrollment(CourseID);
+CREATE INDEX idx_course_instructor ON Course(InstructorID);
+SELECT * FROM Student WHERE Email = 'pankaj@gmail.com';

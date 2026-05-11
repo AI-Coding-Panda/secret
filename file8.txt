@@ -1,0 +1,57 @@
+// CREATE DATABASE
+use SocialMediaDB
+// CREATE COLLECTION
+db.createCollection("posts")
+// INSERT SOCIAL MEDIA DATA
+db.posts.insertMany([
+{
+username: "pankaj_tech",
+content: "AI is revolutionizing every field! #AI #Technology",
+hashtags: ["AI", "Technology"],
+likes: 135, shares: 42, comments: 18,
+createdAt: new Date("2025-01-08T10:00:00Z")
+},
+{
+username: "rutuja_dev",
+content: "Big Data is the new oil #BigData #AI",
+hashtags: ["BigData", "AI"],
+likes: 210, shares: 55, comments: 38,
+createdAt: new Date("2025-01-12T13:30:00Z")
+},
+{
+username: "vaibhav_cloud",
+content: "Cloud adoption is rising fast #Cloud #Technology",
+hashtags: ["Cloud", "Technology"],
+likes: 95, shares: 20, comments: 12,
+createdAt: new Date("2025-01-17T09:00:00Z")
+},
+{
+username: "priyanka_ml",
+content: "ML models improving daily #AI #ML",
+hashtags: ["AI", "ML"],
+likes: 160, shares: 45, comments: 25,
+createdAt: new Date("2025-01-22T11:45:00Z")
+}
+])
+// FILTER QUERIES
+db.posts.find({ likes: { $gt: 100 } })
+db.posts.find({ hashtags: "AI" })
+db.posts.find({
+createdAt: {
+$gte: ISODate("2025-01-01T00:00:00Z"),
+$lt: ISODate("2025-02-01T00:00:00Z")
+}
+})
+// TOP TRENDING HASHTAGS
+db.posts.aggregate([
+{ $unwind: "$hashtags" },
+{ $group: { _id: "$hashtags", count: { $sum: 1 } } },
+{ $sort: { count: -1 } },
+{ $limit: 5 }
+])
+// ADDITIONAL ANALYTICS
+db.posts.find().sort({ likes: -1 }).limit(1)
+db.posts.aggregate([{ $group: { _id: null, avgLikes: { $avg: "$likes" } }
+}])
+db.posts.aggregate([{ $group: { _id: null, totalShares: { $sum: "$shares" }
+} }])

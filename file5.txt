@@ -1,0 +1,53 @@
+-- STEP 1: CREATE SALES TABLE
+CREATE TABLE Sales (
+SaleID NUMBER PRIMARY KEY,
+ProductName VARCHAR2(100),
+Quantity NUMBER,
+Price NUMBER(10,2),
+SaleDate DATE
+);
+-- STEP 2: STORED PROCEDURE
+CREATE OR REPLACE PROCEDURE Add_Sale (
+p_SaleID IN NUMBER,
+p_ProductName IN VARCHAR2,
+p_Quantity IN NUMBER,
+p_Price IN NUMBER,
+p_SaleDate IN DATE
+) IS
+BEGIN
+INSERT INTO Sales (SaleID, ProductName, Quantity, Price, SaleDate)
+VALUES (p_SaleID, p_ProductName, p_Quantity, p_Price, p_SaleDate);
+COMMIT;
+DBMS_OUTPUT.PUT_LINE('Sale record inserted successfully.');
+EXCEPTION
+WHEN DUP_VAL_ON_INDEX THEN
+DBMS_OUTPUT.PUT_LINE('Error: SaleID already exists.');
+WHEN OTHERS THEN
+DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+-- INSERT DATA USING PROCEDURE
+BEGIN
+Add_Sale(1, 'Smartphone', 3, 700, SYSDATE);
+Add_Sale(2, 'Headphones', 5, 35, SYSDATE);
+Add_Sale(3, 'Tablet', 2, 400, SYSDATE);
+Add_Sale(4, 'Charger', 4, 25, SYSDATE);
+Add_Sale(5, 'Speaker', 2, 180, SYSDATE);
+END;
+-- STEP 3: FUNCTION TO CALCULATE TOTAL SALES
+CREATE OR REPLACE FUNCTION Get_Total_Sales RETURN NUMBER IS
+v_TotalSales NUMBER(12,2);
+BEGIN
+SELECT SUM(Quantity * Price) INTO v_TotalSales FROM Sales;
+RETURN NVL(v_TotalSales, 0);
+EXCEPTION
+WHEN OTHERS THEN RETURN 0;
+END;
+-- CALL FUNCTION
+DECLARE
+v_Total NUMBER;
+BEGIN
+v_Total := Get_Total_Sales;
+DBMS_OUTPUT.PUT_LINE('Total Sales: ' || v_Total);
+END;
+SELECT Get_Total_Sales FROM dual;
+SELECT * FROM Sales;

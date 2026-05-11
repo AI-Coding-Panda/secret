@@ -1,0 +1,43 @@
+/* MYSQL DATABASE BACKUP AND RECOVERY */
+-- STEP 1: CREATE DATABASE
+CREATE DATABASE salesdb;
+USE salesdb;
+-- STEP 2: CREATE TABLE
+CREATE TABLE customers (
+customer_id INT PRIMARY KEY,
+name VARCHAR(50),
+email VARCHAR(100),
+city VARCHAR(50)
+);
+-- STEP 3: INSERT SAMPLE DATA
+INSERT INTO customers VALUES
+(1, 'Pankaj', 'pankaj@gmail.com', 'Pune'),
+(2, 'Rutuja', 'rutuja@gmail.com', 'Nagpur'),
+(3, 'Vaibhav', 'vaibhav@gmail.com', 'Aurangabad');
+-- VERIFY DATA
+SELECT * FROM customers;
+/* ==========================================
+BACKUP COMMANDS (RUN IN CMD)
+========================================== */
+-- Backup single database
+mysqldump -u root -p salesdb > salesdb_backup.sql
+-- Backup multiple databases
+mysqldump -u root -p --databases salesdb testdb > multiple_backup.sql
+-- Backup all databases
+mysqldump -u root -p --all-databases > alldb_backup.sql
+-- Backup specific table
+mysqldump -u root -p salesdb customers > customers_backup.sql
+/* ==========================================
+RESTORE DATABASE
+========================================== */
+-- Create database before restore
+CREATE DATABASE salesdb;
+-- Restore database (run in cmd)
+mysql -u root -p salesdb < salesdb_backup.sql
+-- Restore all databases
+mysql -u root -p < alldb_backup.sql
+/* ==========================================
+VERIFY RESTORE
+========================================== */
+USE salesdb;
+SELECT * FROM customers;
