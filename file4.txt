@@ -14,7 +14,7 @@ CustomerID INT,
 FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
 );
 INSERT INTO Customers VALUES
-(1, 'suraj', 'bhushnar', 'pankaj@gmail.com'),
+(1, 'suraj', 'bhushnar', 'suraj@gmail.com'),
 (2, 'Rutuja', 'Deshmukh', 'rutuja@gmail.com'),
 (3, 'Vaibhav', 'Kadam', 'vaibhav@gmail.com'),
 (4, 'Priyanka', 'Shinde', 'priyanka@gmail.com'),
